@@ -6,11 +6,11 @@
             <Content :style="{padding: '0 50px'}">
                 <Breadcrumb :style="{margin: '20px 0'}">
                     <BreadcrumbItem>Home</BreadcrumbItem>
-                    <BreadcrumbItem>Components</BreadcrumbItem>
-                    <BreadcrumbItem>Layout</BreadcrumbItem>
+                    <!-- <BreadcrumbItem>Components</BreadcrumbItem>
+                    <BreadcrumbItem>Layout</BreadcrumbItem> -->
                 </Breadcrumb>
                 <Card>
-                    <div style="min-height: 200px;">
+                    <div style="min-height: 400px;">
                         <router-view/>
                     </div>
                 </Card>
@@ -25,9 +25,7 @@
 
 
 <style>
-  .ivu-layout-header {
-          background-color: #f8f8f9;
-  }
+
   .layout{
         border: 1px solid #d7dde4;
         background: #f5f7f9;
@@ -45,7 +43,7 @@
         left: 20px;
     }
     .layout-nav{
-        width: 420px;
+        width: 620px;
         margin: 0 auto;
         margin-right: 20px;
     }

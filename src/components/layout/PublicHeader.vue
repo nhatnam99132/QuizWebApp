@@ -20,27 +20,32 @@
               ><Icon type="ios-keypad"></Icon> About</router-link
             >
           </MenuItem>
+          <MenuItem name="3">
+            <router-link to="/quiz"
+              ><Icon type="ios-aperture"></Icon> Quiz</router-link
+            >
+          </MenuItem>
         </div>
-        <div class="layout-nav" v-if="this.$store.state.AUTH.isLogin">
-          <Submenu name="3">
+        <div class="layout-nav" v-if="isLoggedIn">
+          <Submenu name="4">
             <template slot="title">
               <Icon type="ios-stats" />
               Hello User
             </template>
             <MenuGroup title="info">
-              <MenuItem name="3-1">Profile</MenuItem>
+              <MenuItem name="4-1"><p @click="goProfile">Profile</p> </MenuItem>
             </MenuGroup>
-              <MenuItem name="3-2"><p @click="logout">Logout</p></MenuItem>
+              <MenuItem name="4-2"><p @click="logout">Logout</p></MenuItem>
           </Submenu>
         </div>
         <div class="layout-nav" v-else>
-          <MenuItem name="3">
+          <MenuItem name="5">
             <router-link to="/login"
               ><Icon type="ios-analytics"></Icon> Login</router-link
             >
           </MenuItem>
-          <MenuItem name="4">
-            <router-link to="/register"
+          <MenuItem name="6">
+            <router-link :to="{ name: 'Register'} "
               ><Icon type="ios-paper"></Icon> Register</router-link
             >
           </MenuItem>
@@ -61,18 +66,21 @@ export default {
   methods: {
       async logout() {
          await this.$store
-            .dispatch("AUTH/logout", {
-              token: this.$store.state.AUTH.token,
-            })
+            .dispatch("AUTH/logout")
             .then(() => {
               this.$Message.success('Logout success');
               //console.log("Token: "+this.$store.state.AUTH.token);
-              this.$store.state.AUTH.token = null;
-              this.$store.state.AUTH.isLogin = false;
+              
               //console.log("Token sau khi logout: "+this.$store.state.AUTH.token);
             });
+      },
+      goProfile() {
+        this.$router.push('/dashboard');
       }
   },
+  computed : {
+      isLoggedIn : function(){ return this.$store.getters['AUTH/isLoggedIn']}
+    },
 };
 </script>
 

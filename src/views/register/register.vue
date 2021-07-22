@@ -94,9 +94,9 @@ export default {
           },
           { type: "email", message: "Incorrect email format", trigger: "blur" },
         ],
-        passwd: [{ required: true, validator: validatePass, trigger: "blur" }],
+        passwd: [{ type: 'string', required: true, len:6, validator: validatePass, trigger: "blur" }],
         passwdCheck: [
-          { required: true, validator: validatePassCheck, trigger: "blur" },
+          { type: 'string', required: true, len: 6, validator: validatePassCheck, trigger: "blur" },
         ],
         address: [
           {
@@ -117,11 +117,29 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      this.$refs[name].validate((valid) => {
+      this.$refs[name].validate(async (valid) => {
         if (valid) {
-          this.$Message.success("Success!");
+         await this.$store
+            .dispatch("AUTH/register", {
+              username: this.formValidate.mail,
+              password: this.formValidate.passwd,
+              name: this.formValidate.name,
+              address: this.formValidate.address,
+              password_confirmation: this.formValidate.passwdCheck,
+              phoneNumber: this.formValidate.phoneNumber,
+            })
+            .then(() => {
+                if(this.$store.state.AUTH.isRegister){
+                  this.$Message.success("Register Success! Please Login to continue the application");
+                this.$router.push("/login");
+                }
+                else {
+                  this.$Message.error("Register Fail! Please Try Again");
+                }
+            });
+          //console.log('Token: '+ this.$store.state.AUTH.token);
         } else {
-          this.$Message.error("Fail!");
+          this.$Message.error("Register Fail! Please Try Again");
         }
       });
     },
